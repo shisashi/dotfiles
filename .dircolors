@@ -1,0 +1,92 @@
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+
+# The keywords COLOR, OPTIONS, and EIGHTBIT (honored by the
+# slackware version of dircolors) are recognized but ignored.
+
+# Below, there should be one TERM entry for each termtype that is colorizable
+#TERM linux
+#TERM console
+#TERM con132x25
+#TERM con132x30
+#TERM con132x43
+#TERM con132x60
+#TERM con80x25
+#TERM con80x28
+#TERM con80x30
+#TERM con80x43
+#TERM con80x50
+#TERM con80x60
+#TERM xterm
+#TERM kterm
+#TERM vt100
+
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
+# 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+# Text color codes:
+# 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
+# Background color codes:
+# 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+NORMAL 00	# global default, although everything should be something.
+FILE 00		# normal file
+DIR 36		# directory
+LINK 31		# symbolic link
+FIFO 33		# pipe
+SOCK 35		# socket
+BLK 33		# block device driver
+CHR 33		# character device driver
+ORPHAN 31;01	# symlink to nonexistent file
+EXEC 32         # This is for files with execute permission:
+
+# List any file extensions like '.gz' or '.tar' that you would like ls
+# to colorize below. Put the extension, a space, and the color init string.
+# (and any comments you want to add after a '#')
+
+# If you use DOS-style suffixes, you may want to uncomment the following:
+#.cmd 01;32 # executables (bright green)
+#.exe 01;32
+#.com 01;32
+#.btm 01;32
+#.bat 01;32
+
+#.doc 01 # text file (bold)
+#.txt 01
+#.c   01
+#.h   01
+#.pl  01
+#.tex 01
+#.bib 01
+#.htm 01
+#.html 01
+
+.tar 35 # archives or compressed (yellow)
+.tgz 35
+.arj 35
+.taz 35
+.lzh 35
+.zip 35
+.z   35
+.Z   35
+.gz  35
+.bz2 35
+.deb 35
+.rpm 35
+#.jpg 35 # image formats (magenta)
+#.gif 35
+#.bmp 35
+#.ppm 35
+#.tga 35
+#.xbm 35
+#.xpm 35
+#.tif 35
+#.pic 35
+#.PIC 35
+#.mag 35
+#.MAG 35
+#.mpg 35
+#.avi 35
+#.gl 35
+#.dl 35
+
