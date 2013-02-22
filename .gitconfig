@@ -4,14 +4,14 @@
 	tree = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
 	tr = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
 	graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=iso
-	gr= log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=iso
+	gr = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=iso
 	st = status
 	br = branch
 [color]
 	ui = true
 [core]
 	editor = vim -c \"set fenc=utf-8\"
-	excludesfile = .gitignore_global
+	excludesfile = ~/.gitignore_global
 [grep]
 	lineNumber = true
 [merge]
@@ -20,3 +20,8 @@
 	path = p4merge
 	keepTemporaries = false
 	trustExitCode = false
+[color "diff"]
+	meta = white bold
+	frag = cyan
+	old = red
+	new = green

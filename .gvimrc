@@ -73,4 +73,4 @@ colorscheme solarized
 
 "let &transparency = 10
 "let g:transparency = &transparency
-nnoremap <Esc><Esc> :<C-u>let &transparency = g:transparency<Cr><C-l>
+" nnoremap <Esc><Esc> :<C-u>let &transparency = g:transparency<Cr><C-l>

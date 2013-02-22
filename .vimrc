@@ -97,7 +97,43 @@ noremap <C-U><C-A> :UniteWithBufferDir -buffer-name=files buffer file_mru bookma
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
+" XMLとかHTMLとかの編集機能を強化する
+NeoBundle 'xmledit'
+
+" ソースコード上のメソッド宣言、変数宣言の一覧を表示
+NeoBundle 'taglist.vim'
+set tags=tags
+" macのctagsはhomebrewで入れたやつを使う
+if has('mac')
+  let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
+endif
+" 現在表示中のファイルのみのタグしか表示しない
+let Tlist_Show_One_File = 1
+" 右側にtag listのウインドうを表示する
+let Tlist_Use_Right_Window = 1
+" taglistのウインドウだけならVimを閉じる
+let Tlist_Exit_OnlyWindow = 1
+" \lでtaglistウインドウを開いたり閉じたり出来るショートカット
+map <silent> <leader>l :TlistToggle<CR>
+
+" ステータスラインをカッコよくする
 NeoBundle 'Lokaltog/vim-powerline'
+
+" fで次々移動できるようにする
+" http://mba-hack.blogspot.jp/2013/01/vim4.html
+NeoBundle 'rhysd/clever-f.vim'
+
+" ; で移動先をハイライトする
+" http://blog.remora.cx/2012/08/vim-easymotion.html
+" http://d.hatena.ne.jp/osyo-manga/20110614/1308037854
+NeoBundle 'Lokaltog/vim-easymotion'
+" ホームポジションに近いキーを使う
+let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+" Space連打 + w, e, b, ge にマッピング
+let g:EasyMotion_leader_key = '<Space><Space>'
+" 1 ストローク選択を優先する
+" let g:EasyMotion_grouping=1
+
 NeoBundle 'kana/vim-tabpagecd'
 NeoBundle 'kana/vim-fakeclip'
 
@@ -180,6 +216,17 @@ set termencoding=utf-8
 set encoding=utf-8
 set fileencodings=iso-2022-jp,utf-8,cp932,euc-jp
 
+if has('mouse')
+  set mouse=a
+  if has('mouse_sgr')
+    set ttymouse=sgr
+  elseif v:version > 703 || v:version is 703 && has('patch632') " I couldn't use has('mouse_sgr') :-(
+    set ttymouse=sgr
+  else
+    set ttymouse=xterm2
+  endif
+endif
+
 " UTF-8の□や○でカーソル位置がずれないようにする
 set ambiwidth=double
 
@@ -192,7 +239,7 @@ map <silent> sp :call YanktmpPaste_p()<CR>
 map <silent> sP :call YanktmpPaste_P()<CR>
 
 " ハイライトをEscで抜ける
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
+nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " shift-tab で次のタブ
 nnoremap <S-Tab> gt
