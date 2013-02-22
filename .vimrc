@@ -57,12 +57,6 @@ NeoBundle 'teramako/jscomplete-vim'
 autocmd FileType javascript setlocal omnifunc=jscomplete#CompleteJS
 let g:jscomplete_use = ['dom']
 
-" vim-color-solarized
-NeoBundle 'altercation/vim-colors-solarized'
-set background=dark
-let g:solarized_termcolors=16
-colorscheme solarized
-
 " jedi
 NeoBundle 'davidhalter/jedi-vim'
 let g:jedi#auto_initialization = 1
@@ -146,13 +140,34 @@ if neobundle#exists_not_installed_bundles()
 endif
 
 " =================================================
+" colorschemeの設定。NoeBundleの最後で設定する
+" =================================================
+
+" vim-color-solarized
+NeoBundle 'altercation/vim-colors-solarized'
+
+syntax enable
+set background=dark
+set t_Co=256
+let g:solarized_termcolors=256
+let g:solarized_degrade=0
+let g:solarized_bold=1
+let g:solarized_underline=1
+let g:solarized_italic=1
+let g:solarized_termtrans=1
+let g:solarized_contrast="high"
+let g:solarized_visibility="high"
+colorscheme solarized
+
+" colorscheme
+" NeoBundle 'w0ng/vim-hybrid'
+" colorscheme hybrid
+
+" =================================================
 " 通常設定
 " =================================================
-syntax on
 filetype plugin on
 set encoding=utf-8
-" 256色モード
-set t_Co=256
 
 set viminfo='20,<50,s10,h,! " YankRing用に!を追加
 set shellslash              " Windowsでディレクトリパスの区切り文字に / を使えるようにする
@@ -202,8 +217,14 @@ set scrolloff=5       " 行送り
 
 " 不可視文字表示
 set list                    " 不可視文字表示
-" タブと末尾の空白を表示し、開業は表示しない
+" タブと末尾の空白を表示し、改行は表示しない
 set listchars=tab:▸\ ,trail:_
+" set listchars=eol:¬,tab:▸\ ,trail:_
+" highlight SpecialKey term=underline ctermfg=darkgray guifg=darkgray
+
+" 現在の行の色を変える
+set cursorline
+
 " ステータスライン関連
 set laststatus=2
 
