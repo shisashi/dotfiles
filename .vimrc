@@ -67,10 +67,6 @@ autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-" NERDTree
-NeoBundle 'scrooloose/nerdtree'
-nmap <F9> :NERDTreeToggle
-
 " unite.vim
 NeoBundle 'Shougo/unite.vim'
 " 入力モードで開始する
@@ -90,6 +86,15 @@ noremap <C-U><C-A> :UniteWithBufferDir -buffer-name=files buffer file_mru bookma
 " ESCキーを2回押すと終了する
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+
+" VimFiler
+NeoBundle 'Shougo/vimfiler'
+"vimデフォルトのエクスプローラをvimfilerで置き換える
+let g:vimfiler_as_default_explorer = 1
+
+" NERDTree やめてvimfilerに変更
+"NeoBundle 'scrooloose/nerdtree'
+"nmap <F9> :NERDTreeToggle
 
 " XMLとかHTMLとかの編集機能を強化する
 NeoBundle 'xmledit'
