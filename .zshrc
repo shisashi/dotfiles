@@ -1,4 +1,4 @@
-PATH=~/bin:~/programs/bin:~/programs/git-tasukete::$JAVA_HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=~/bin:~/programs/bin:~/programs/git-tasukete::$JAVA_HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/mysql/bin
 
 if [ $ENVNAME = "MacOS" ]
 then
@@ -30,6 +30,8 @@ alias -g T='| tail'
 alias -g G='| grep'
 alias -g W='| wc'
 
+alias less='less -R'
+
 # setopt
 setopt auto_menu auto_cd auto_name_dirs auto_param_keys auto_remove_slash
 setopt cdable_vars correct_all extended_history extended_glob
@@ -45,8 +47,8 @@ SAVEHIST=100000
 setopt extended_history
 setopt share_history
 
-# •âŠ®
-#zmodload zsh/complist
+# completion
+fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U compinit
 compinit -u
 
@@ -112,9 +114,14 @@ defprompt() {
 }
 #defprompt
 
-if [ -f $HOME/.pythonbrew/etc/bashrc ]
+if [ -f $HOME/perl5/perlbrew/etc/bashrc ]
 then
-    source $HOME/.pythonbrew/etc/bashrc
+    source $HOME/perl5/perlbrew/etc/bashrc
+fi
+
+if [ -f $HOME/.pythonz/etc/bashrc ]
+then
+    source $HOME/.pythonz/etc/bashrc
 fi
 
 if [ $ENVNAME = "MacOS" ]
@@ -128,6 +135,7 @@ then
     alias vi='env LANG=ja_JP.UTF-8 Vim "$@"'
     alias vim='env LANG=ja_JP.UTF-8 Vim "$@"'
     alias gvim='env LANG=ja_JP.UTF-8 MacVim "$@"'
+    alias diff='colordiff'
 fi
 
 function precmd () {
@@ -135,3 +143,6 @@ function precmd () {
 }
 
 export EDITOR=vim
+
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "/Users/shisashi/.gvm/bin/gvm-init.sh" ]] && source "/Users/shisashi/.gvm/bin/gvm-init.sh"

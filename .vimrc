@@ -41,9 +41,9 @@ imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 
 " ()[]{}""''などを挿入したら自動的に中へ
-NeoBundle 'kana/vim-smartinput'
-inoremap << <><LEFT>
-inoremap {% {%<Space><Space>%}<LEFT><LEFT><LEFT>
+"NeoBundle 'kana/vim-smartinput'
+"inoremap << <><LEFT>
+"inoremap {% {%<Space><Space>%}<LEFT><LEFT><LEFT>
 
 " template
 autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
@@ -61,11 +61,13 @@ let g:jscomplete_use = ['dom']
 NeoBundle 'davidhalter/jedi-vim'
 let g:jedi#auto_initialization = 1
 let g:jedi#rename_command = "<leader>r"
-let g:jedi#popup_on_dot = 1
-autocmd FileType python let b:did_ftplugin = 1
-autocmd FileType python setl autoindent
-autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#get_definition_command = "<leader>d"
+let g:jedi#show_function_definition = "0"
+
+" pyflakes で Pythonの文法チェック
+NeoBundle 'mitechie/pyflakes-pathogen'
 
 " unite.vim
 NeoBundle 'Shougo/unite.vim'
@@ -115,8 +117,75 @@ let Tlist_Exit_OnlyWindow = 1
 " \lでtaglistウインドウを開いたり閉じたり出来るショートカット
 map <silent> <leader>l :TlistToggle<CR>
 
+" Syntastic is a syntax checking plugin
+NeoBundle 'scrooloose/syntastic'
+
+" pep8のチェックを走らせる
+NeoBundle 'nvie/vim-flake8'
+
+NeoBundle 'tpope/vim-fugitive'
+
+" 行番号の左にgitのhunk情報を表示
+NeoBundle 'airblade/vim-gitgutter'
+
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '*'
+let g:gitgutter_sign_removed = '-'
+
 " ステータスラインをカッコよくする
-NeoBundle 'Lokaltog/vim-powerline'
+" NeoBundle 'Lokaltog/vim-powerline'
+" powerlineからlightlineに乗り換え
+NeoBundle 'itchyny/lightline.vim'
+
+let g:lightline = {
+      \ 'colorscheme': 'solarized',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'gitgutter', 'filename', 'modified' ] ],
+      \ },
+      \ 'component': {
+      \   'readonly': '%{&readonly?"x":""}',
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype!="help"&& &readonly)',
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'MyFugitive',
+      \   'gitgutter': 'MyGitGutter',
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '|', 'right': '|' },
+      \ }
+
+function! MyFugitive()
+  if exists("*fugitive#head")
+    return exists('*fugitive#head') ? fugitive#head() : ''
+  endif
+  return ''
+endfunction
+
+function! MyGitGutter()
+  if ! exists('*GitGutterGetHunkSummary')
+        \ || ! get(g:, 'gitgutter_enabled', 0)
+        \ || winwidth('.') <= 90
+    return ''
+  endif
+  let symbols = [
+        \ g:gitgutter_sign_added . ' ',
+        \ g:gitgutter_sign_modified . ' ',
+        \ g:gitgutter_sign_removed . ' '
+        \ ]
+  let hunks = GitGutterGetHunkSummary()
+  let ret = []
+  for i in [0, 1, 2]
+    if hunks[i] > 0
+      call add(ret, symbols[i] . hunks[i])
+    endif
+  endfor
+  return join(ret, ' ')
+endfunction
 
 " fで次々移動できるようにする
 " http://mba-hack.blogspot.jp/2013/01/vim4.html
@@ -222,10 +291,17 @@ set scrolloff=5       " 行送り
 
 " 不可視文字表示
 set list                    " 不可視文字表示
-" タブと末尾の空白を表示し、改行は表示しない
+" タブと末尾の空白を表示
 set listchars=tab:▸\ ,trail:_,eol:↲,extends:»,precedes:«,nbsp:%
 " set listchars=eol:¬,tab:▸\ ,trail:_
-highlight SpecialKey term=underline ctermfg=DarkGreen guifg=DarkGreen
+" highlight SpecialKey term=underline ctermfg=DarkGreen guifg=DarkGreen
+
+" Python
+filetype plugin on
+autocmd FileType python let b:did_ftplugin = 1
+autocmd FileType python setl autoindent
+autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 " 全角スペース・行末のスペース・タブの可視化
 if has("syntax")
@@ -277,7 +353,8 @@ if has('mouse')
 endif
 
 " UTF-8の□や○でカーソル位置がずれないようにする
-set ambiwidth=double
+" set ambiwidth=double
+" テスト: ▼-○-□-↓-↑-
 
 set showmode
 set ruler
@@ -290,6 +367,10 @@ map <silent> sP :call YanktmpPaste_P()<CR>
 " ハイライトをEscで抜ける
 nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 
+" ZZ と ZQ を無効化
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+
 " shift-tab で次のタブ
 nnoremap <S-Tab> gt
 " tab-tab で前のタブ
@@ -298,6 +379,38 @@ nnoremap <Tab><Tab> gT
 for i in range(1, 9)
     execute 'nnoremap <Tab>' . i . ' ' . i . 'gt'
 endfor
+
+noremap <Space>h  ^
+noremap <Space>l  $
+nnoremap <Space>/  *
+noremap <Space>m  %
+
+
+" create directory automatically
+augroup vimrc-auto-mkdir
+    autocmd!
+    autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+    function! s:auto_mkdir(dir, force)
+        if !isdirectory(a:dir) && (a:force ||
+            \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+            call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+        endif
+    endfunction
+augroup END
+
+" TSVの特定のカラムをハイライトする
+function! TSVH(x)
+    execute 'match Keyword /^\([^\t]*\t\)\{'.a:x.'}\zs[^\t]*/'
+    execute 'normal ^'.a:x.'f\t'
+endfunction
+command! -nargs=1 Tsvhl :call TSVH(<args>)
+
+" CSVの特定のカラムをハイライトする
+function! CSVH(x)
+    execute 'match Keyword /^\([^,]*,\)\{'.a:x.'}\zs[^,]*/'
+    execute 'normal ^'.a:x.'f,'
+endfunction
+command! -nargs=1 Csvhl :call CSVH(<args>)
 
 " メモ
 " see: 秒速でvimでメモを書く条件 http://tekkoc.tumblr.com/post/41943190314/vim

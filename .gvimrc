@@ -3,7 +3,7 @@
 "
 if has('win32')
   " Windows用
-  set guifont=Ricty:h14:cSHIFTJIS
+  set guifont=Ricty:h18:cSHIFTJIS
   " 行間隔の設定
   set linespace=1
   " 一部のUCS文字の幅を自動計測して決める
@@ -11,7 +11,8 @@ if has('win32')
     set ambiwidth=auto
   endif
 elseif has('mac')
-  set guifont=Ricty:h18
+  set guifont=Ricty:h21
+  map ¥ <leader>
 elseif has('xfontset')
   set guifont=Ricty:h18
 endif
@@ -74,3 +75,7 @@ colorscheme solarized
 "let &transparency = 10
 "let g:transparency = &transparency
 " nnoremap <Esc><Esc> :<C-u>let &transparency = g:transparency<Cr><C-l>
+highlight SpecialKey term=underline ctermfg=DarkGreen guifg=DarkGreen
+
+" gitgutterのエリアの背景色をクリア用
+highlight clear SignColumn
