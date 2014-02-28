@@ -1,10 +1,11 @@
-PATH=~/bin:~/programs/bin:~/programs/git-tasukete::$JAVA_HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/mysql/bin
+PATH=~/bin:~/programs/bin:~/programs/git-tasukete:$GRADLE_HOME/bin:$JAVA_HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/mysql/bin
 
 if [ $ENVNAME = "MacOS" ]
 then
-    PATH=$PATH:$(brew --prefix coreutils)/libexec/gnubin
+    PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
     alias ls='gls'
-else
+elif [ $ENVNAME = "Linux" ]
+then
 fi
 
 #aliases
@@ -23,6 +24,7 @@ alias lsl='ls -Fl'
 alias lla='ls -FAl'
 alias lal='ls -FAl'
 alias gn='gnuclient -nw'
+alias tmux='tmux -2'
 
 alias -g L='| lv'
 alias -g H='| head'
@@ -126,20 +128,19 @@ fi
 
 if [ $ENVNAME = "MacOS" ]
 then
-    # z
-    # https://github.com/rupa/z
-    source `brew --prefix`/etc/profile.d/z.sh
-
     # aliases for MacVim
     PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
     alias vi='env LANG=ja_JP.UTF-8 Vim "$@"'
     alias vim='env LANG=ja_JP.UTF-8 Vim "$@"'
     alias gvim='env LANG=ja_JP.UTF-8 MacVim "$@"'
     alias diff='colordiff'
+elif [ $ENVNAME = "Linux" ]
+then
+    source ~/bin/z.sh
 fi
 
 function precmd () {
-    z --add "$(pwd -P)"
+    #z --add "$(pwd -P)"
 }
 
 export EDITOR=vim

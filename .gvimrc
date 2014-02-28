@@ -15,6 +15,8 @@ elseif has('mac')
   map ¥ <leader>
 elseif has('xfontset')
   set guifont=Ricty:h18
+elseif has('unix')
+  set guifont=Ricty\ 15
 endif
 
 "---------------------------------------------------------------------------

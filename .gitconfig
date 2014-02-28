@@ -8,10 +8,11 @@
 	st = status
 	br = branch
 [color]
-	ui = true
+	ui = auto
 [core]
 	editor = vim -c \"set fenc=utf-8\"
 	excludesfile = ~/.gitignore_global
+	pager = lv -c
 [grep]
 	lineNumber = true
 [merge]
